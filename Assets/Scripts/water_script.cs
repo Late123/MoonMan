@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Threading;
 using UnityEngine;
-using Cinemachine.Examples;
+//using Cinemachine.Examples;
 public class water_script : MonoBehaviour
 {
 	public GameObject moon;
@@ -15,16 +15,17 @@ public class water_script : MonoBehaviour
 	public float moon_height_when_far = 100.0f;
     private AudioSource audioSource;
     public AudioClip deathSound;
-    private CharacterMovement characterMovement;
-
+    private FP_Playermovement player_movement_script;
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        characterMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterMovement>();
+        player_movement_script = GameObject.FindGameObjectWithTag("Player").GetComponent<FP_Playermovement>();
 		float desired_height = get_desired_height();
 		Vector3 new_position = new Vector3(transform.position.x, desired_height, transform.position.z);
         audioSource = GetComponent<AudioSource>();
+        rb = GetComponent<Rigidbody>();
     }
 
     
@@ -34,8 +35,9 @@ public class water_script : MonoBehaviour
         float new_height = Mathf.MoveTowards(transform.position.y, desired_height, move_speed * Time.fixedDeltaTime);
 
         Vector3 new_position = new Vector3(transform.position.x, new_height, transform.position.z);
-        transform.position = new_position;
 
+        rb.MovePosition(new_position);
+        //transform.position = new_position;
     }
 
 	float get_desired_height() {
@@ -54,7 +56,7 @@ public class water_script : MonoBehaviour
             audioSource.Stop();
             audioSource.clip = deathSound;
             audioSource.Play();
-            characterMovement.Respawn(1.0f);
+            player_movement_script.Respawn(1.0f);
         }
     }
 

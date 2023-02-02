@@ -12,7 +12,6 @@ public class MoonToggle : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {   
-        t = 0;
     }
 
     // Update is called once per frame
