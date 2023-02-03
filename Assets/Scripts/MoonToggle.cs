@@ -8,10 +8,12 @@ public class MoonToggle : MonoBehaviour
     public float speed = 0.2f;
     public GameObject close, far;
     public float t;
+    public float starting_t = 0.5f;
 
     // Start is called before the first frame update
     private void Start()
-    {   
+    {
+        t = starting_t;
     }
 
     // Update is called once per frame

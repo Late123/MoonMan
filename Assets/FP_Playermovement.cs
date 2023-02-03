@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ItemType
+{
+    None = 0,
+    Platform_Crystal = 1,
+    NumItemTypes
+}
+
+
 public class FP_Playermovement : MonoBehaviour
 {
     public float mouse_sens_x = 1.0f;
@@ -23,12 +32,22 @@ public class FP_Playermovement : MonoBehaviour
 
     Rigidbody rb;
 
+
+    public MoonToggle moon_script;
+
+    public int[] item_counts = new int[(int)ItemType.NumItemTypes];
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         main_camera = Camera.main;
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        for(int i = 0; i < item_counts.Length; ++i)
+            item_counts[i]= 0;
     }
 
     // Update is called once per frame
@@ -44,10 +63,10 @@ public class FP_Playermovement : MonoBehaviour
         yaw = Mathf.Repeat(yaw, 360.0f);
         pitch = Mathf.Clamp(pitch, -pitch_bounds, pitch_bounds);
 
-        float p_rads = Mathf.Deg2Rad * pitch;
-        float y_rads = Mathf.Deg2Rad * yaw;
+        /*float p_rads = Mathf.Deg2Rad * pitch;
+        float y_rads = Mathf.Deg2Rad * yaw;*/
 
-        main_camera.transform.rotation = Quaternion.EulerAngles(-p_rads, y_rads, 0.0f);
+        main_camera.transform.rotation = Quaternion.Euler(-pitch, yaw, 0.0f);
     }
 
 
@@ -85,7 +104,13 @@ public class FP_Playermovement : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         transform.position = respawn_point;
+        moon_script.t = moon_script.starting_t;
     }
 
+
+    public void GiveItem(ItemType item_type)
+    {
+        item_counts[(int)item_type] += 1;
+    }
 
 }
