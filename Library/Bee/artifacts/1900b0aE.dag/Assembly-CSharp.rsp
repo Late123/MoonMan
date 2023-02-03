@@ -359,6 +359,7 @@
 "Assets/Scripts/goal_zone_script.cs"
 "Assets/Scripts/MoonToggle.cs"
 "Assets/Scripts/water_script.cs"
+"Assets/ThrownItemScript.cs"
 -langversion:9.0
 
 /deterministic

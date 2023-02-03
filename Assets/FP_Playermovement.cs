@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+using UnityEngine.SceneManagement;
+
 public enum ItemType
 {
     None = 0,
@@ -33,10 +35,13 @@ public class FP_Playermovement : MonoBehaviour
     Rigidbody rb;
 
 
+    public float throw_speed = 1.0f;
+
     public MoonToggle moon_script;
 
     public int[] item_counts = new int[(int)ItemType.NumItemTypes];
 
+    public GameObject thrown_item_prefab;
 
 
     // Start is called before the first frame update
@@ -67,6 +72,14 @@ public class FP_Playermovement : MonoBehaviour
         float y_rads = Mathf.Deg2Rad * yaw;*/
 
         main_camera.transform.rotation = Quaternion.Euler(-pitch, yaw, 0.0f);
+
+
+
+        if (Input.GetKeyDown("space"))
+        {
+            AttemptToThrowItem(ItemType.Platform_Crystal);
+        }
+
     }
 
 
@@ -103,14 +116,30 @@ public class FP_Playermovement : MonoBehaviour
     private IEnumerator RespawnCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        transform.position = respawn_point;
-        moon_script.t = moon_script.starting_t;
+        /*transform.position = respawn_point;
+        moon_script.t = moon_script.starting_t;*/
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
 
     public void GiveItem(ItemType item_type)
     {
         item_counts[(int)item_type] += 1;
+    }
+
+
+    private void AttemptToThrowItem(ItemType item_type)
+    {
+        int item_index = (int)item_type;
+        if (item_counts[item_index] > 0)
+        {
+            item_counts[item_index] -= 1;
+
+            Vector3 starting_pos = transform.position + transform.forward;
+            GameObject thrown_item = Instantiate(thrown_item_prefab, starting_pos, Quaternion.identity);
+            thrown_item.GetComponent<Rigidbody>().velocity = transform.forward * throw_speed;
+            thrown_item.GetComponent<ThrownItemScript>().item_i_am = item_type;
+        }
     }
 
 }
