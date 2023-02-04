@@ -39,7 +39,8 @@ public class FP_Playermovement : MonoBehaviour
 
     public MoonToggle moon_script;
 
-    public int[] item_counts = new int[(int)ItemType.NumItemTypes];
+    //public int[] item_counts = new int[(int)ItemType.NumItemTypes];
+    private int item_counts;
 
     public GameObject thrown_item_prefab;
 
@@ -51,8 +52,9 @@ public class FP_Playermovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
 
-        for(int i = 0; i < item_counts.Length; ++i)
-            item_counts[i]= 0;
+        // for(int i = 0; i < item_counts.Length; ++i)
+        //     item_counts[i]= 0;
+        item_counts = 0;
     }
 
     // Update is called once per frame
@@ -124,22 +126,39 @@ public class FP_Playermovement : MonoBehaviour
 
     public void GiveItem(ItemType item_type)
     {
-        item_counts[(int)item_type] += 1;
+        //item_counts[(int)item_type] += 1;
+        item_counts += 1;
     }
 
 
     private void AttemptToThrowItem(ItemType item_type)
     {
-        int item_index = (int)item_type;
-        if (item_counts[item_index] > 0)
+        // int item_index = (int)item_type;
+        // if (item_counts[item_index] > 0)
+        // {
+        //     item_counts[item_index] -= 1;
+
+        //     Vector3 starting_pos = transform.position + transform.forward;
+        //     GameObject thrown_item = Instantiate(thrown_item_prefab, starting_pos, Quaternion.identity);
+        //     thrown_item.GetComponent<Rigidbody>().velocity = transform.forward * throw_speed;
+        //     thrown_item.GetComponent<ThrownItemScript>().item_i_am = item_type;
+        // }
+        
+        if (item_counts > 0)
         {
-            item_counts[item_index] -= 1;
+            item_counts -= 1;
 
             Vector3 starting_pos = transform.position + transform.forward;
             GameObject thrown_item = Instantiate(thrown_item_prefab, starting_pos, Quaternion.identity);
             thrown_item.GetComponent<Rigidbody>().velocity = transform.forward * throw_speed;
             thrown_item.GetComponent<ThrownItemScript>().item_i_am = item_type;
         }
+    }
+
+    private void OnGUI()
+    {   
+        GUI.skin.label.fontSize = 20;
+        GUI.Label(new Rect(4, 4, 400, 200), "Crystals: " + item_counts);
     }
 
 }
