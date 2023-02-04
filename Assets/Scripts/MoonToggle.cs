@@ -10,6 +10,8 @@ public class MoonToggle : MonoBehaviour
     public float t;
     public float starting_t = 0.5f;
 
+    public AudioSource water_audio_source;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -22,6 +24,7 @@ public class MoonToggle : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             t += speed * Time.deltaTime;
+
         }
         if (Input.GetMouseButton(1)) 
         {

@@ -373,13 +373,13 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/FP_Playermovement.cs"
 "Assets/Models/Blobbin/Materials/AwesomeToonHelper.cs"
-"Assets/pickup_script.cs"
+"Assets/Scripts/FP_Playermovement.cs"
 "Assets/Scripts/goal_zone_script.cs"
 "Assets/Scripts/MoonToggle.cs"
+"Assets/Scripts/pickup_script.cs"
+"Assets/Scripts/ThrownItemScript.cs"
 "Assets/Scripts/water_script.cs"
-"Assets/ThrownItemScript.cs"
 -langversion:9.0
 
 /deterministic
